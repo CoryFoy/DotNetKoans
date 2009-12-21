@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace DotNetKoans
+﻿namespace DotNetKoans
 {
     public class KoanAttribute : Xunit.FactAttribute
     {

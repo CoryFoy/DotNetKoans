@@ -1,5 +1,4 @@
 ﻿using Xunit;
-using DotNetKoans;
 
 namespace DotNetKoans.CSharp
 {
