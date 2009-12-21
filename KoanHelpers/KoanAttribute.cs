@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace DotNetKoans
+﻿namespace DotNetKoans
 {
     //This attribute is because we can't guarantee the order
     //of the methods when we walk a class. So this allows us
