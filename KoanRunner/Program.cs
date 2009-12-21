@@ -24,33 +24,23 @@ namespace DotNetKoans.KoanRunner
                 Xunit.ExecutorWrapper wrapper = new ExecutorWrapper(koan_path, null, false);
                 System.Reflection.Assembly koans = System.Reflection.Assembly.LoadFrom(koan_path);
                 if (koans == null) { Console.WriteLine("Bad Assembly"); return -1; }
-                Run("DotNetKoans.CSharp.AboutAsserts", koans, wrapper);
-                Run("DotNetKoans.CSharp.AboutNil", koans, wrapper);
-                Run("DotNetKoans.CSharp.AboutArrays", koans, wrapper);
-                //Run("DotNetKoans.CSharp.AboutArrayAssignment", koans, wrapper);
-                //Run("DotNetKoans.CSharp.AboutHashes", koans, wrapper);
-                //Run("DotNetKoans.CSharp.AboutStrings", koans, wrapper);
-                //Run("DotNetKoans.CSharp.AboutMethods", koans, wrapper);
-                //Run("DotNetKoans.CSharp.AboutControlStatements", koans, wrapper);
-                //Run("DotNetKoans.CSharp.AboutTrueAndFalse", koans, wrapper);
-                //Run("DotNetKoans.CSharp.AboutTriangleProject", koans, wrapper);
-                //Run("DotNetKoans.CSharp.AboutExceptions", koans, wrapper);
-                //Run("DotNetKoans.CSharp.AboutTriangleProject2", koans, wrapper);
-                //Run("DotNetKoans.CSharp.AboutIteration", koans, wrapper);
-                //Run("DotNetKoans.CSharp.AboutBlocks", koans, wrapper);
-                //Run("DotNetKoans.CSharp.AboutSandwichCode", koans, wrapper);
-                //Run("DotNetKoans.CSharp.AboutScoringProject", koans, wrapper);
-                //Run("DotNetKoans.CSharp.AboutClasses", koans, wrapper);
-                //Run("DotNetKoans.CSharp.AboutDiceProject", koans, wrapper);
-                //Run("DotNetKoans.CSharp.AboutInheritance", koans, wrapper);
-                //Run("DotNetKoans.CSharp.AboutModules", koans, wrapper);
-                //Run("DotNetKoans.CSharp.AboutScope", koans, wrapper);
-                //Run("DotNetKoans.CSharp.AboutClassMethods", koans, wrapper);
-                //Run("DotNetKoans.CSharp.AboutMessagePassing", koans, wrapper);
-                //Run("DotNetKoans.CSharp.AboutProxyObjectProject", koans, wrapper);
-                //Run("DotNetKoans.CSharp.AboutExtraCredit", koans, wrapper);
+                Type pathType = null;
+                foreach (Type type in koans.GetExportedTypes())
+                {
+                    if (typeof(KoanHelpers.IAmThePathToEnlightenment).IsAssignableFrom(type))
+                    {
+                        pathType = type;
+                        break;
+                    }
+                }
 
-                //wrapper.RunClass("DotNetKoans.CSharp.AboutAsserts", callback);
+                KoanHelpers.IAmThePathToEnlightenment path = Activator.CreateInstance(pathType) as KoanHelpers.IAmThePathToEnlightenment;
+                string[] thePath = path.ThePath;
+
+                foreach (string koan in thePath)
+                {
+                    Run(koan, koans, wrapper);
+                }
             }
             catch (Exception ex)
             {
@@ -68,6 +58,9 @@ namespace DotNetKoans.KoanRunner
         {
             
             Type classToRun = koanAssembly.GetType(className);
+
+            if (classToRun == null) { return; }
+
             string[] queue = new string[classToRun.GetMethods().Length + 1];
             foreach (MethodInfo method in classToRun.GetMethods())
             {
