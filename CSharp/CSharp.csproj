@@ -75,6 +75,7 @@
     <Compile Include="AboutTriangleProject.cs" />
     <Compile Include="AboutTriangleProject2.cs" />
     <Compile Include="AboutTrueAndFalse.cs" />
+    <Compile Include="PathToEnlightenment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
