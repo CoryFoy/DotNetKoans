@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Xunit;
-using DotNetKoans;
 using System.Linq;
 
 namespace DotNetKoans.CSharp
