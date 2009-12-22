@@ -12,10 +12,10 @@ namespace DotNetKoans.CSharp
             get
             {
                 return new string[] {
-                //"DotNetKoans.CSharp.AboutAsserts",
-                //"DotNetKoans.CSharp.AboutNil",
-                //"DotNetKoans.CSharp.AboutArrays",
-                //"DotNetKoans.CSharp.AboutArrayAssignment",
+                "DotNetKoans.CSharp.AboutAsserts",
+                "DotNetKoans.CSharp.AboutNil",
+                "DotNetKoans.CSharp.AboutArrays",
+                "DotNetKoans.CSharp.AboutArrayAssignment",
                 "DotNetKoans.CSharp.AboutHashes",
                 "DotNetKoans.CSharp.AboutStrings",
                 "DotNetKoans.CSharp.AboutMethods",
