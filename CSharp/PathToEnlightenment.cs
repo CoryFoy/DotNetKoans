@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace DotNetKoans.CSharp
+﻿namespace DotNetKoans.CSharp
 {
     public class PathToEnlightenment : KoanHelpers.IAmThePathToEnlightenment
     {
