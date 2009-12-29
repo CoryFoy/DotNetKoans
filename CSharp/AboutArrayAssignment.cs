@@ -21,7 +21,7 @@ namespace DotNetKoans.CSharp
             //Even though we don't specify types explicitly, the compiler
             //will pick one for us
             var name = "John";
-            Assert.Equal(FILL_ME_IN.GetType(), name.GetType());
+            Assert.Equal(typeof(FillMeIn), name.GetType());
 
             //but only if it can. So this doesn't work
             //var array = null;
@@ -36,7 +36,7 @@ namespace DotNetKoans.CSharp
             //Even though we don't specify types explicitly, the compiler
             //will pick one for us
             var names = new[] { "John", "Smith" };
-            Assert.Equal(FILL_ME_IN.GetType(), names.GetType());
+            Assert.Equal(typeof(FillMeIn), names.GetType());
 
             //but only if it can. So this doesn't work
             //var array = new[] { "John", 1 };

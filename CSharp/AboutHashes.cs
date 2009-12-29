@@ -85,7 +85,7 @@ namespace DotNetKoans.CSharp
             var hash = new Hashtable() { { "jim", 53 }, {"amy", 20}, {"dan", 23}};
 
             //We can't add the same key:
-            Assert.Throws(FILL_ME_IN.GetType(), delegate() { hash.Add("jim", 54); });
+            Assert.Throws(typeof(FillMeIn), delegate() { hash.Add("jim", 54); });
 
             //But let's say we wanted to merge two Hashtables? 
             //We have the following:

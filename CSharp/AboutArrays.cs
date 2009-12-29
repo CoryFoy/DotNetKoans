@@ -12,7 +12,7 @@ namespace DotNetKoans.CSharp
         public void CreatingArrays()
         {
             var empty_array = new object[] { };
-            Assert.Equal(FILL_ME_IN.GetType(), empty_array.GetType());
+            Assert.Equal(typeof(FillMeIn), empty_array.GetType());
 
             //Note that you have to explicitly check for subclasses
             Assert.True(typeof(Array).IsAssignableFrom(empty_array.GetType()));
@@ -35,7 +35,7 @@ namespace DotNetKoans.CSharp
             Assert.True(array.IsFixedSize);
 
             //...it means we can't do this: array[1] = 13;
-            Assert.Throws(FILL_ME_IN.GetType(), delegate() { array[1] = 13; });
+            Assert.Throws(typeof(FillMeIn), delegate() { array[1] = 13; });
 
             //This is because the array is fixed at length 1. You could write a function
             //which created a new array bigger than the last, copied the elements over, and

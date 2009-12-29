@@ -18,7 +18,7 @@ namespace DotNetKoans.CSharp
         public void DoubleQuotedStringsAreStrings()
         {
             var str = "Hello, World";
-            Assert.Equal(FILL_ME_IN.GetType(), str.GetType());
+            Assert.Equal(typeof(FillMeIn), str.GetType());
         }
 
         [Koan(2)]

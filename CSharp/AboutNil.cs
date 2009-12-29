@@ -17,7 +17,7 @@ namespace DotNetKoans.CSharp
             //Don't be confused by the code below. It is using Anonymous Delegates which we will
             //cover later on. 
             object nothing = null;
-            Assert.Throws(FILL_ME_IN.GetType(), delegate() { nothing.ToString(); });
+            Assert.Throws(typeof(FillMeIn), delegate() { nothing.ToString(); });
 
             //What's the message of the exception? What substring or pattern could you test
             //against in order to have a good idea of what the string is?
