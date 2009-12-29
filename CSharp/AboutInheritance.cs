@@ -94,8 +94,51 @@ namespace DotNetKoans.CSharp
             var chico = new Chihuahua("Chico");
             Assert.Equal(FILL_ME_IN, chico.Bark());
 
+            //Note that even if we cast the object back to a dog
+            //we still get the Chihuahua's behavior. It truly
+            //"is-a" Chihuahua
+            Dog dog = chico as Dog;
+            Assert.Equal(FILL_ME_IN, dog.Bark());
+
             var fido = new Dog("Fido");
             Assert.Equal(FILL_ME_IN, fido.Bark());
+        }
+
+        public class ReallyYippyChihuahua : Chihuahua
+        {
+            public ReallyYippyChihuahua(string name) : base(name) { }
+
+            //It is possible to redefine behavior for classes where
+            //the methods were not marked virtual - but it can really
+            //get you if you aren't careful. For example:
+
+            public new string Wag()
+            {
+                return "WAG WAG WAG!!";
+            }
+
+        }
+
+        [Koan(6)]
+        public void SubclassesCanRedefineBehaviorThatIsNotVirtual()
+        {
+            ReallyYippyChihuahua suzie = new ReallyYippyChihuahua("Suzie");
+            Assert.Equal(FILL_ME_IN, suzie.Wag());
+        }
+
+        [Koan(7)]
+        public void NewingAMethodDoesNotChangeTheBaseBehavior()
+        {
+            //This is vital to understand. In Koan 6, you saw that the Wag
+            //method did what we defined in our class. But what happens
+            //when we do this?
+            Chihuahua bennie = new ReallyYippyChihuahua("Bennie");
+            Assert.Equal(FILL_ME_IN, bennie.Wag());
+
+            //That's right. The behavior of the object is dependent solely
+            //on who you are pretending to be. Unlike when you override a
+            //virtual method. Remember this in your path to enlightenment.
+
         }
 
         public class BullDog : Dog
@@ -107,7 +150,7 @@ namespace DotNetKoans.CSharp
             }
         }
 
-        [Koan(6)]
+        [Koan(8)]
         public void SubclassesCanInvokeParentBehaviorUsingBase()
         {
             var ralph = new BullDog("Ralph");
@@ -123,7 +166,7 @@ namespace DotNetKoans.CSharp
             }
         }
 
-        [Koan(7)]
+        [Koan(9)]
         public void YouCanCallBaseEvenFromOtherMethods()
         {
             var george = new BullDog("George");
