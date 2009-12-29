@@ -31,6 +31,12 @@ namespace DotNetKoans.CSharp
             {
             }
 
+            //Unless it doesn't. You have to call the base constructor at some point
+            //with a name, but you don't have to have your class conform to that spec:
+            public Chihuahua() : base("Ima Chihuahua")
+            {
+            }
+
             // For a Chihuahua to do something different than a regular "Dog"
             // when called to "Bark", the base class must be virtual and the
             // derived class must declare it as "override".
@@ -50,13 +56,13 @@ namespace DotNetKoans.CSharp
         [Koan(1)]
         public void SubclassesHaveTheParentAsAnAncestor()
         {
-            Assert.True(typeof(Chihuahua).IsAssignableFrom(FILL_ME_IN.GetType()));
+            Assert.True(typeof(FillMeIn).IsAssignableFrom(typeof(Chihuahua)));
         }
 
         [Koan(2)]
         public void AllClassesUltimatelyInheritFromAnObject()
         {
-            Assert.True(typeof(Chihuahua).IsAssignableFrom(FILL_ME_IN.GetType()));
+            Assert.True(typeof(FillMeIn).IsAssignableFrom(typeof(Chihuahua)));
         }
 
         [Koan(3)]
@@ -72,11 +78,14 @@ namespace DotNetKoans.CSharp
             var chico = new Chihuahua("Chico");
             Assert.Equal(FILL_ME_IN, chico.Wag());
 
-            // I'm not quite sure of the best way to represent this concept
-            // in .Net since most ways will not even compile.
+            //We can search the public methods of an object 
+            //instance like this:
+            Assert.NotNull(chico.GetType().GetMethod("Wag"));
 
-            //var dog = (Dog)chico;
-            //Assert.Throws(FILL_ME_IN.GetType(), delegate() { dog.Wag(); });
+            //So we can show that the Wag method isn't on Dog. 
+            //Proving you can't wag the dog. 
+            var dog = new Dog("Fluffy");
+            Assert.Null(dog.GetType().GetMethod("Wag"));
         }
 
         [Koan(5)]
@@ -87,6 +96,38 @@ namespace DotNetKoans.CSharp
 
             var fido = new Dog("Fido");
             Assert.Equal(FILL_ME_IN, fido.Bark());
+        }
+
+        public class BullDog : Dog
+        {
+            public BullDog(string name) : base(name) { }
+            public override string Bark()
+            {
+                return base.Bark() + ", GROWL";
+            }
+        }
+
+        [Koan(6)]
+        public void SubclassesCanInvokeParentBehaviorUsingBase()
+        {
+            var ralph = new BullDog("Ralph");
+            Assert.Equal(FILL_ME_IN, ralph.Bark());
+        }
+
+        public class GreatDane : Dog
+        {
+            public GreatDane(string name) : base(name) { }
+            public string Growl()
+            {
+                return base.Bark() + ", GROWL";
+            }
+        }
+
+        [Koan(7)]
+        public void YouCanCallBaseEvenFromOtherMethods()
+        {
+            var george = new BullDog("George");
+            Assert.Equal(FILL_ME_IN, george.Bark());
         }
     }
 }
