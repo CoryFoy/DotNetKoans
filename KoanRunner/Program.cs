@@ -59,18 +59,29 @@ namespace DotNetKoans.KoanRunner
             if (classToRun == null) { return; }
 
             string[] queue = new string[classToRun.GetMethods().Length + 1];
+            int highestKoanNumber = 0;
             foreach (MethodInfo method in classToRun.GetMethods())
             {
                 if (method.Name == null) { continue; }
                 DotNetKoans.KoanAttribute custAttr = method.GetCustomAttributes(typeof(DotNetKoans.KoanAttribute), false).FirstOrDefault() as DotNetKoans.KoanAttribute;
                 if (custAttr == null) { continue; }
                 queue[custAttr.Position] = method.Name;
+                if (custAttr.Position > highestKoanNumber) { highestKoanNumber = custAttr.Position; }
             }
+
+            int numberOfTestsActuallyRun = 0;
             foreach (string test in queue)
             {
                 if (String.IsNullOrEmpty(test)) { continue; }
+                numberOfTestsActuallyRun += 1;
                 if (TEST_FAILED != 0) { continue; }
                 wrapper.RunTest(className, test, callback);
+            }
+
+            if (numberOfTestsActuallyRun != highestKoanNumber)
+            {
+                Console.WriteLine("!!!!WARNING - Some Koans appear disabled. The highest koan found was {0} but we ran {1} koan(s)",
+                    highestKoanNumber, numberOfTestsActuallyRun);
             }
         }
 
