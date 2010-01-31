@@ -6,7 +6,7 @@ namespace DotNetKoans.CSharp
 {
     public class AboutControlStatements : Koan
     {
-        //[Koan(1)]
+        [Koan(1)]
         public void IfThenElseStatementsWithBrackets()
         {
             bool b;
@@ -22,7 +22,7 @@ namespace DotNetKoans.CSharp
             Assert.Equal(FILL_ME_IN, b);
         }
 
-        //[Koan(2)]
+        [Koan(2)]
         public void IfThenElseStatementsWithoutBrackets()
         {
             bool b;
@@ -35,7 +35,7 @@ namespace DotNetKoans.CSharp
 
         }
 
-        //[Koan(3)]
+        [Koan(3)]
         public void IfThenStatementsWithBrackets()
         {
             bool b = false;
@@ -47,7 +47,7 @@ namespace DotNetKoans.CSharp
             Assert.Equal(FILL_ME_IN, b);
         }
 
-        //[Koan(4)]
+        [Koan(4)]
         public void IfThenStatementsWithoutBrackets()
         {
             bool b = false;
@@ -57,7 +57,7 @@ namespace DotNetKoans.CSharp
             Assert.Equal(FILL_ME_IN, b);
         }
 
-        //[Koan(5)]
+        [Koan(5)]
         public void WhyItsWiseToAlwaysUseBrackets()
         {
             bool b1 = false;
@@ -73,7 +73,7 @@ namespace DotNetKoans.CSharp
             Assert.Equal(true, b2);
         }
 
-        //[Koan(6)]
+        [Koan(6)]
         public void TernaryOperators()
         {
             Assert.Equal(FILL_ME_IN, (true ? 1 : 0));
@@ -92,7 +92,7 @@ namespace DotNetKoans.CSharp
             Assert.Null(nullableInt);
         }
 
-        //[Koan(8)]
+        [Koan(8)]
         public void AssignIfNullOperator()
         {
             int? nullableInt = null;
@@ -102,7 +102,7 @@ namespace DotNetKoans.CSharp
             Assert.Equal(FILL_ME_IN, x);
         }
 
-        //[Koan(9)]
+        [Koan(9)]
         public void IsOperators()
         {
             bool isKoan = false;
@@ -126,7 +126,7 @@ namespace DotNetKoans.CSharp
 
         }
 
-        //[Koan(10)]
+        [Koan(10)]
         public void WhileStatement()
         {
             int i = 1;
@@ -139,7 +139,7 @@ namespace DotNetKoans.CSharp
             Assert.Equal(FILL_ME_IN, result);
         }
 
-        //[Koan(11)]
+        [Koan(11)]
         public void BreakStatement()
         {
             int i = 1;
@@ -153,7 +153,7 @@ namespace DotNetKoans.CSharp
             Assert.Equal(FILL_ME_IN, result);
         }
 
-        //[Koan(12)]
+        [Koan(12)]
         public void ContinueStatement()
         {
             int i = 0;
@@ -167,7 +167,7 @@ namespace DotNetKoans.CSharp
             Assert.Equal(FILL_ME_IN, result);
         }
 
-        //[Koan(13)]
+        [Koan(13)]
         public void ForStatement()
         {
             var list = new List<string> { "fish", "and", "chips" };
@@ -178,7 +178,7 @@ namespace DotNetKoans.CSharp
             Assert.Equal(FILL_ME_IN, list);
         }
 
-        //[Koan(14)]
+        [Koan(14)]
         public void ForEachStatement()
         {
             var list = new List<string> { "fish", "and", "chips" };
@@ -191,7 +191,7 @@ namespace DotNetKoans.CSharp
             Assert.Equal(FILL_ME_IN, finalList);
         }
 
-        //[Koan(15)]
+        [Koan(15)]
         public void ModifyingACollectionDuringForEach()
         {
             var list = new List<string> { "fish", "and", "chips" };
