@@ -49,7 +49,7 @@ namespace DotNetKoans.CSharp
         public void HashIsUnordered()
         {
             var hash1 = new Hashtable() { { "one", "uno" }, { "two", "dos" } };
-            var hash2 = new Hashtable() { { "two", "dos" }, { "one", "uno" } };
+			var hash2 = new Hashtable() { { "two", FILL_ME_IN }, { "one", "uno" } };
             Assert.Equal(hash1, hash2);
         }
 
