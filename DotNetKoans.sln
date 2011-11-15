@@ -1,8 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp", "CSharp\CSharp.csproj", "{981750A0-F5CA-42BA-84A1-FE52656B778F}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "xUnit", "xUnit", "{D7AA82E5-95A6-4CC9-8129-10C072C021B5}"
 	ProjectSection(SolutionItems) = preProject
 		xunit-1.5\HTML.xslt = xunit-1.5\HTML.xslt
@@ -24,6 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "xUnit", "xUnit", "{D7AA82E5
 		xunit-1.5\xunit.runner.utility.xml = xunit-1.5\xunit.runner.utility.xml
 		xunit-1.5\xunit.xml = xunit-1.5\xunit.xml
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp", "CSharp\CSharp.csproj", "{981750A0-F5CA-42BA-84A1-FE52656B778F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KoanRunner", "KoanRunner\KoanRunner.csproj", "{6631FC60-7B21-4C72-A1EB-A02365A101E0}"
 EndProject
