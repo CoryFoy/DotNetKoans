@@ -25,7 +25,7 @@ namespace DotNetKoans.CSharp
         public void SingleQuotedStringsAreNotStrings()
         {
             var str = 'H';
-            Assert.Equal(typeof(Char), str.GetType());
+			Assert.Equal(typeof(FillMeIn), str.GetType());
         }
 
         [Koan(3)]
@@ -117,7 +117,7 @@ broken line";
             var originalString = strA;
             var strB = "World";
             strA += strB;
-            Assert.Equal("Hello, ", originalString);
+            Assert.Equal(FILL_ME_IN, originalString);
 
             //What just happened? Well, the string concatenation actually
             //takes strA and strB and creates a *new* string in memory

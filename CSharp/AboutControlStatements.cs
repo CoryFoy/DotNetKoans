@@ -69,8 +69,8 @@ namespace DotNetKoans.CSharp
                 b1 = true;
                 b2 = true;
 
-            Assert.Equal(false, b1);
-            Assert.Equal(true, b2);
+			Assert.Equal(FILL_ME_IN, b1);
+			Assert.Equal(FILL_ME_IN, b2);
         }
 
         [Koan(6)]
@@ -88,8 +88,8 @@ namespace DotNetKoans.CSharp
             //i = null; //You can't do this
 
             int? nullableInt = null; //but you can do this
-            Assert.NotNull(i);
-            Assert.Null(nullableInt);
+			Assert.NotNull(FILL_ME_IN);
+			Assert.Null(FILL_ME_IN);
         }
 
         [Koan(8)]
