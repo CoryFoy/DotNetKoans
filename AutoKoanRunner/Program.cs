@@ -18,13 +18,21 @@ namespace AutoKoanRunner
 			public string ProjectName { get; set; }
 			public string SourceFolder { get; set; }
 			public string AssemblyPath { get; set; }
-			public static readonly KoanSource CSharp = new KoanSource{
+			public static readonly KoanSource CSharp = new KoanSource
+			{
 				Extension = ".cs",
 				ProjectName = "CSharp",
 				SourceFolder = @"..\..\..\CSharp",
 				AssemblyPath = @"..\..\..\CSharp\bin\debug\csharp.dll"
 			};
-			public static readonly KoanSource[] Sources = new[] { CSharp };
+			public static readonly KoanSource VBasic = new KoanSource
+			{
+				Extension = ".vb",
+				ProjectName = "VBNet",
+				SourceFolder = @"..\..\..\VBNet",
+				AssemblyPath = @"..\..\..\VBNet\bin\debug\VBNet.dll"
+			};
+			public static readonly KoanSource[] Sources = new[] { CSharp, VBasic };
 		}
         static void Main(string[] args)
 		{
@@ -44,9 +52,12 @@ namespace AutoKoanRunner
 					w.EnableRaisingEvents = true;
 				});
 
-				lastChange = DateTime.MinValue;
-
-				StartRunner(null, null);//Auto run the first time
+				
+				//Auto run the first time
+				Array.ForEach(KoanSource.Sources, s => {
+					StartRunner(null, new FileSystemEventArgs(WatcherChangeTypes.Changed, s.SourceFolder, s.Extension));
+					lastChange = DateTime.MinValue;
+				});
 
 				Console.WriteLine("When you save a Koan, we'll check your work.");
 				Console.WriteLine("Press a key to exit...");
@@ -70,7 +81,7 @@ namespace AutoKoanRunner
 					return;
 				lastChange = timestamp;
 			}
-			KoanSource source = e != null ? Array.Find(KoanSource.Sources, s => e.FullPath.EndsWith(s.Extension)) : KoanSource.CSharp; //Sorry Rory ;)
+			KoanSource source = Array.Find(KoanSource.Sources, s => e.FullPath.EndsWith(s.Extension));
 			BuildProject(source);
 			RunKoans(source);
 		}
@@ -101,12 +112,12 @@ namespace AutoKoanRunner
 					launch.Start();
 					string output = launch.StandardOutput.ReadToEnd();
 					launch.WaitForExit();
-					EchoResult(output);
+					EchoResult(output, koans.ProjectName);
 				}
 			}
 			File.Delete(koans.AssemblyPath);
 		}
-		private static void EchoResult(string output)
+		private static void EchoResult(string output, string projectName)
 		{
 			string[] lines = output.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
 			const string kExpanded = "has expanded your";
@@ -115,11 +126,11 @@ namespace AutoKoanRunner
 			{
 				if (line.Contains(kExpanded))
 				{
-					PrintTestLine(line, ConsoleColor.Green, kExpanded);
+					PrintTestLine(line, ConsoleColor.Green, kExpanded, projectName);
 				}
 				else if (line.Contains(kDamaged))
 				{
-					PrintTestLine(line, ConsoleColor.Red, kDamaged);
+					PrintTestLine(line, ConsoleColor.Red, kDamaged, projectName);
 				}
 				else
 				{
@@ -128,10 +139,10 @@ namespace AutoKoanRunner
 				}
 			});
 		}
-		private static void PrintTestLine(string line, ConsoleColor accent, string action)
+		private static void PrintTestLine(string line, ConsoleColor accent, string action, string cSharp)
 		{
-			const string kKoanAssembly = ".CSharp.";
-			int testStart = line.IndexOf(kKoanAssembly) + kKoanAssembly.Length;
+			string koanAssembly = String.Format(".{0}.", cSharp);
+			int testStart = line.IndexOf(koanAssembly) + koanAssembly.Length;
 			int testEnd = line.IndexOf(action, testStart);
 			Console.ForegroundColor = ConsoleColor.White;
 			Console.Write(line.Substring(0, testStart));
