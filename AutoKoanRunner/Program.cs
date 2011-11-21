@@ -139,9 +139,9 @@ namespace AutoKoanRunner
 				}
 			});
 		}
-		private static void PrintTestLine(string line, ConsoleColor accent, string action, string cSharp)
+		private static void PrintTestLine(string line, ConsoleColor accent, string action, string projectName)
 		{
-			string koanAssembly = String.Format(".{0}.", cSharp);
+			string koanAssembly = String.Format(".{0}.", projectName);
 			int testStart = line.IndexOf(koanAssembly) + koanAssembly.Length;
 			int testEnd = line.IndexOf(action, testStart);
 			Console.ForegroundColor = ConsoleColor.White;
