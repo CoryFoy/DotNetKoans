@@ -8,22 +8,41 @@ namespace AutoKoanRunner
 {
 	class Program
 	{
-		private static readonly string koansSource = @"..\..\..\CSharp";
-		private static readonly string koansAssembly = @"..\..\..\CSharp\bin\debug\csharp.dll";
+		//private static readonly string koansSource = @"..\..\..\CSharp";
+		//private static readonly string koansAssembly = @"..\..\..\CSharp\bin\debug\csharp.dll";
 		private static readonly string koansRunner = @"..\..\..\KoanRunner\bin\debug\koanrunner.exe";
 		private static DateTime lastChange;
+		internal class KoanSource
+		{
+			public string Extension { get; set; }
+			public string ProjectName { get; set; }
+			public string SourceFolder { get; set; }
+			public string AssemblyPath { get; set; }
+			public static readonly KoanSource CSharp = new KoanSource{
+				Extension = ".cs",
+				ProjectName = "CSharp",
+				SourceFolder = @"..\..\..\CSharp",
+				AssemblyPath = @"..\..\..\CSharp\bin\debug\csharp.dll"
+			};
+			public static readonly KoanSource[] Sources = new[] { CSharp };
+		}
         static void Main(string[] args)
 		{
-			if (Directory.Exists(koansSource) == false)
+			if (Array.TrueForAll(KoanSource.Sources, source => Directory.Exists(source.SourceFolder)) == false)
 			{
 				Console.WriteLine("The Koans were not where we expecte them to be.");
 				return;
 			}
-			using (FileSystemWatcher watcher = new FileSystemWatcher(koansSource, "*.cs"))
+			FileSystemWatcher[] watchers = Array.ConvertAll(
+				KoanSource.Sources, 
+				source => new FileSystemWatcher(source.SourceFolder, "*" + source.Extension));
+			try
 			{
-				watcher.Changed += StartRunner;
-				watcher.NotifyFilter = NotifyFilters.LastWrite;
-				watcher.EnableRaisingEvents = true;
+				Array.ForEach(watchers, w => {
+					w.Changed += StartRunner;
+					w.NotifyFilter = NotifyFilters.LastWrite;
+					w.EnableRaisingEvents = true;
+				});
 
 				lastChange = DateTime.MinValue;
 
@@ -32,7 +51,14 @@ namespace AutoKoanRunner
 				Console.WriteLine("When you save a Koan, we'll check your work.");
 				Console.WriteLine("Press a key to exit...");
 				Console.ReadKey();
-				watcher.Changed -= StartRunner;
+			}
+			finally
+			{
+				Array.ForEach(watchers, w =>
+				{
+					w.Changed -= StartRunner;
+					w.Dispose();
+				});
 			}
 		}
 		private static void StartRunner(object sender, FileSystemEventArgs e)
@@ -44,31 +70,32 @@ namespace AutoKoanRunner
 					return;
 				lastChange = timestamp;
 			}
-			BuildProject();
-			RunKoans();
+			KoanSource source = e != null ? Array.Find(KoanSource.Sources, s => e.FullPath.EndsWith(s.Extension)) : KoanSource.CSharp; //Sorry Rory ;)
+			BuildProject(source);
+			RunKoans(source);
 		}
-		private static bool BuildProject()
+		private static bool BuildProject(KoanSource koans)
 		{
 			Console.WriteLine("Building...");
 			using (Process build = new Process())
 			{
 				build.StartInfo.FileName = "devenv";
-				build.StartInfo.Arguments = @"/build Debug /project CSharp ..\..\..\DotNetKoans.sln";
+				build.StartInfo.Arguments = String.Format(@"/build Debug /project {0} ..\..\..\DotNetKoans.sln", koans.ProjectName);
 				build.StartInfo.CreateNoWindow = true;
 				build.Start();
 				build.WaitForExit();
 			}
 			return false;
 		}
-		private static void RunKoans()
+		private static void RunKoans(KoanSource koans)
 		{
-			if (File.Exists(koansAssembly))
+			if (File.Exists(koans.AssemblyPath))
 			{
 				Console.WriteLine("Checking Koans...");
 				using (Process launch = new Process())
 				{
 					launch.StartInfo.FileName = koansRunner;
-					launch.StartInfo.Arguments = koansAssembly;
+					launch.StartInfo.Arguments = koans.AssemblyPath;
 					launch.StartInfo.RedirectStandardOutput = true;
 					launch.StartInfo.UseShellExecute = false;
 					launch.Start();
@@ -77,7 +104,7 @@ namespace AutoKoanRunner
 					EchoResult(output);
 				}
 			}
-			File.Delete(koansAssembly);
+			File.Delete(koans.AssemblyPath);
 		}
 		private static void EchoResult(string output)
 		{

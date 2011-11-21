@@ -65,6 +65,7 @@
     <Compile Include="AboutArrays.cs" />
     <Compile Include="AboutAsserts.cs" />
     <Compile Include="AboutControlStatements.cs" />
+    <Compile Include="AboutDelegates.cs" />
     <Compile Include="AboutHashes.cs" />
     <Compile Include="AboutInheritance.cs" />
     <Compile Include="AboutMethods.cs" />
