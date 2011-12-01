@@ -208,7 +208,7 @@ namespace DotNetKoans.CSharp
 		public void BuiltInPredicateDelegateIntSatisfied()
 		{
 			//The Predicate<T> delegate 
-			//  public delgate void Action<T>(T obj);
+			//  public delgate void Predicate<T>(T obj);
 			//Predicate allows you to codify a condition and pass it around. 
 			//You use it to determine if an object satisfies some criteria. 
 
@@ -254,9 +254,9 @@ namespace DotNetKoans.CSharp
 			Assert.Equal(FILL_ME_IN, Array.TrueForAll(countries, IsInSouthAmerica));
 		}
 
-		private string DayOfWeek()
+		private string FirstMonth()
 		{
-			return DateTime.Now.DayOfWeek.ToString();
+			return "January";
 		}
 		private int Add(int x, int y)
 		{
@@ -272,7 +272,7 @@ namespace DotNetKoans.CSharp
 			//type, Func<int>, then the method takes no paramters and returns an int.
 			//If you specify more than one parameter, then you are specifying the paramter types as well.
 
-			Func<string> d = DayOfWeek;
+			Func<string> d = FirstMonth;
 			Assert.Equal(FILL_ME_IN, d());
 		}
 		[Koan(21)]

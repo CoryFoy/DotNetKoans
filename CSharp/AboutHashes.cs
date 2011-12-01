@@ -45,15 +45,18 @@ namespace DotNetKoans.CSharp
             Assert.Equal(expected, hash);
         }
 
-        [Koan(5)]
-        public void HashIsUnordered()
-        {
-            var hash1 = new Hashtable() { { "one", "uno" }, { "two", "dos" } };
-			var hash2 = new Hashtable() { { "two", FILL_ME_IN }, { "one", "uno" } };
-            Assert.Equal(hash1, hash2);
-        }
+		public class Translation
+		{
+			public string From { get; set; }
+			public string To { get; set; }
+			public Translation(string from, string to)
+			{
+				From = from;
+				To = to;
+			}
+		}
 
-        [Koan(6)]
+        [Koan(5)]
         public void HashKeysAndValues()
         {
             var hash = new Hashtable() { { "one", "uno" }, { "two", "dos" } };
@@ -79,7 +82,7 @@ namespace DotNetKoans.CSharp
             Assert.Equal(expectedValues, actualValues);
         }
 
-        [Koan(7)]
+        [Koan(6)]
         public void CombiningHashes()
         {
             var hash = new Hashtable() { { "jim", 53 }, {"amy", 20}, {"dan", 23}};
