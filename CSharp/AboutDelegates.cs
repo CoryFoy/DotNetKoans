@@ -276,7 +276,7 @@ namespace DotNetKoans.CSharp
 			Assert.Equal(FILL_ME_IN, d());
 		}
 		[Koan(21)]
-		private void FunctionReturnsInt()
+		public void FunctionReturnsInt()
 		{
 			//Like Action<>, Func<> is overloaded and can take a variable number of parameters.
 			//The first type parameters define the parameter types and the last one is the return type. So the following matches
@@ -302,7 +302,7 @@ namespace DotNetKoans.CSharp
 			return lhs.Model.CompareTo(rhs.Model);
 		}
 		[Koan(22)]
-		private void SortingWithComparison()
+		public void SortingWithComparison()
 		{
 			//You could make classes sortable by implementing IComparable or IComparer. But the Comparison<> delegate makes it easier
 			//	public delegate int Comparison<T>(T x, T y);
@@ -319,7 +319,7 @@ namespace DotNetKoans.CSharp
 			return x.ToString();
 		}
 		[Koan(23)]
-		private void ChangingTypesWithConverter()
+		public void ChangingTypesWithConverter()
 		{
 			//The Converter<> delegate
 			//	public delegeate U Converter<T, U>(T from);
@@ -333,7 +333,7 @@ namespace DotNetKoans.CSharp
 		}
 
 		[Koan(24)]
-		private void UsingAnonymousMethods()
+		public void UsingAnonymousMethods()
 		{
 			//In all the previous cases the delegate was assigned to a predefined method. 
 			//Anonymous methods let you define the method in place.

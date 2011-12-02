@@ -68,6 +68,7 @@
     <Compile Include="AboutDelegates.cs" />
     <Compile Include="AboutHashes.cs" />
     <Compile Include="AboutInheritance.cs" />
+    <Compile Include="AboutLambdas.cs" />
     <Compile Include="AboutMethods.cs" />
     <Compile Include="AboutNil.cs" />
     <Compile Include="AboutStrings.cs" />
