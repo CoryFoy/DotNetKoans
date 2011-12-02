@@ -331,22 +331,5 @@ namespace DotNetKoans.CSharp
 
 			Assert.Equal(FILL_ME_IN, result);
 		}
-
-		[Koan(24)]
-		public void UsingAnonymousMethods()
-		{
-			//In all the previous cases the delegate was assigned to a predefined method. 
-			//Anonymous methods let you define the method in place.
-			//This Koan produces the same result as ChangingTypesWithConverter, but it uses 
-			//an anonymous method instead. As you can see there is no method name, but it is 
-			//prefixed with "delegate"
-			var numbers = new[] { 1, 2, 3, 4 };
-			var result = Array.ConvertAll(numbers, delegate(int x)
-												   {
-													   return x.ToString();
-												   });
-
-			Assert.Equal(FILL_ME_IN, result);
-		}
 	}
 }

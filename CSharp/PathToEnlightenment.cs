@@ -16,7 +16,8 @@
 				"DotNetKoans.CSharp.AboutInheritance",
 				"DotNetKoans.CSharp.AboutMethods",
 				"DotNetKoans.CSharp.AboutControlStatements",
-                "DotNetKoans.CSharp.AboutDelegates"
+                "DotNetKoans.CSharp.AboutDelegates",
+				"DotNetKoans.CSharp.AboutLambdas"
                 };
             }
         }
