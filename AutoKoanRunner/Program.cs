@@ -34,7 +34,7 @@ namespace AutoKoanRunner
 			};
 			public static readonly KoanSource[] Sources = new[] { CSharp, VBasic };
 		}
-        static void Main(string[] args)
+		static void Main(string[] args)
 		{
 			if (Array.TrueForAll(KoanSource.Sources, source => Directory.Exists(source.SourceFolder)) == false)
 			{
@@ -42,25 +42,28 @@ namespace AutoKoanRunner
 				return;
 			}
 			FileSystemWatcher[] watchers = Array.ConvertAll(
-				KoanSource.Sources, 
+				KoanSource.Sources,
 				source => new FileSystemWatcher(source.SourceFolder, "*" + source.Extension));
 			try
 			{
-				Array.ForEach(watchers, w => {
+				Array.ForEach(watchers, w =>
+				{
 					w.Changed += StartRunner;
 					w.NotifyFilter = NotifyFilters.LastWrite;
 					w.EnableRaisingEvents = true;
 				});
 
-				
+
 				//Auto run the first time
-				Array.ForEach(KoanSource.Sources, s => {
+				Array.ForEach(KoanSource.Sources, s =>
+				{
 					StartRunner(null, new FileSystemEventArgs(WatcherChangeTypes.Changed, s.SourceFolder, s.Extension));
 					lastChange = DateTime.MinValue;
 				});
 
-				Console.WriteLine("When you save a Koan, we'll check your work.");
+				Console.WriteLine("When you save a Koan, the Master will again ponder your work.");
 				Console.WriteLine("Press a key to exit...");
+				Console.WriteLine();
 				Console.ReadKey();
 			}
 			finally
@@ -120,36 +123,78 @@ namespace AutoKoanRunner
 		private static void EchoResult(string output, string projectName)
 		{
 			string[] lines = output.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-			const string kExpanded = "has expanded your";
-			const string kDamaged = "has damaged your";
-			Array.ForEach(lines, line =>
-			{
-				if (line.Contains(kExpanded))
-				{
-					PrintTestLine(line, ConsoleColor.Green, kExpanded, projectName);
-				}
-				else if (line.Contains(kDamaged))
-				{
-					PrintTestLine(line, ConsoleColor.Red, kDamaged, projectName);
-				}
-				else
-				{
-					Console.ForegroundColor = ConsoleColor.White;
-					Console.WriteLine(line);
-				}
-			});
+			const string kExpanded = "has expanded your awareness";
+			const string kDamaged = "has damaged your karma.";
+			PrintLastActions(projectName, lines, kExpanded, kDamaged);
+			PrintMastersComments(lines, kExpanded, kDamaged);
+			PrintAnswersYouSeek(lines, kDamaged);
+			PrintFinalWords();
 		}
-		private static void PrintTestLine(string line, ConsoleColor accent, string action, string projectName)
+		private static void PrintLastActions(string projectName, string[] lines, string kExpanded, string kDamaged)
+		{
+			int lastSuccess = Array.FindLastIndex(lines, l => l.Contains(kExpanded));
+			if (lastSuccess >= 0)
+			{
+				PrintTestLineJustTest(lines[lastSuccess], ConsoleColor.Green, kExpanded, projectName);
+			}
+			int lastFail = Array.FindLastIndex(lines, l => l.Contains(kDamaged));
+			if (lastFail >= 0)
+			{
+				PrintTestLineJustTest(lines[lastFail], ConsoleColor.Red, kDamaged, projectName);
+			}
+		}
+		private static void PrintMastersComments(string[] lines, string kExpanded, string kDamaged)
+		{
+			Console.WriteLine();
+			Console.WriteLine("The Master says:");
+			Console.ForegroundColor = ConsoleColor.Cyan;
+			if (Array.FindIndex(lines, l => l.Contains(kDamaged)) >= 0)
+			{
+				Console.WriteLine("\tYou have not yet reached enlightenment.");
+			}
+			int completed = Array.FindAll(lines, l => l.Contains(kExpanded)).Length;
+			if (completed > 0)
+			{
+				Console.WriteLine("\tYou are progressing. Excellent. {0} completed.", completed);
+			}
+			Console.ForegroundColor = ConsoleColor.White;
+		}
+		private static void PrintAnswersYouSeek(string[] lines, string kDamaged)
+		{
+			Console.WriteLine();
+			Console.WriteLine("The answers you seek...");
+			int damaged = Array.FindIndex(lines, l => l.Contains(kDamaged));
+			Console.ForegroundColor = ConsoleColor.Red;
+			int offset = damaged + 1;
+            for (; lines[offset].TrimStart().StartsWith("at") == false; offset++)
+			{
+				Console.WriteLine("\t{0}", lines[offset]);
+			}
+			Console.ForegroundColor = ConsoleColor.White;
+
+			Console.WriteLine();
+			Console.WriteLine("Please meditate on the following code:");
+			Console.ForegroundColor = ConsoleColor.Red;
+			Console.WriteLine("\t{0}", lines[offset].TrimStart());
+			Console.ForegroundColor = ConsoleColor.White;
+		}
+		private static void PrintFinalWords()
+		{
+			Console.WriteLine();
+			Console.WriteLine("sleep is the best meditation");
+			//Console.WriteLine("your path thus far [.X________________] n/m");
+		}
+		private static void PrintTestLineJustTest(string line, ConsoleColor accent, string action, string projectName)
 		{
 			string koanAssembly = String.Format(".{0}.", projectName);
 			int testStart = line.IndexOf(koanAssembly) + koanAssembly.Length;
 			int testEnd = line.IndexOf(action, testStart);
 			Console.ForegroundColor = ConsoleColor.White;
-			Console.Write(line.Substring(0, testStart));
+			Console.Write("{0}.", projectName);
 			Console.ForegroundColor = accent;
 			Console.Write(line.Substring(testStart, testEnd - testStart));
 			Console.ForegroundColor = ConsoleColor.White;
-			Console.Write(line.Substring(testEnd));
+			Console.WriteLine(action);
 		}
 	}
 }
