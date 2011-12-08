@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Diagnostics;
+using System.Text;
 
 namespace AutoKoanRunner
 {
@@ -128,7 +129,7 @@ namespace AutoKoanRunner
 			PrintLastActions(projectName, lines, kExpanded, kDamaged);
 			PrintMastersComments(lines, kExpanded, kDamaged);
 			PrintAnswersYouSeek(lines, kDamaged);
-			PrintFinalWords();
+			PrintFinalWords(lines);
 		}
 		private static void PrintLastActions(string projectName, string[] lines, string kExpanded, string kDamaged)
 		{
@@ -152,6 +153,7 @@ namespace AutoKoanRunner
 			{
 				Console.WriteLine("\tYou have not yet reached enlightenment.");
 			}
+			//TODO: Remind to ask for help if they get the same koan wrong a few times.
 			int completed = Array.FindAll(lines, l => l.Contains(kExpanded)).Length;
 			if (completed > 0)
 			{
@@ -178,11 +180,29 @@ namespace AutoKoanRunner
 			Console.WriteLine("\t{0}", lines[offset].TrimStart());
 			Console.ForegroundColor = ConsoleColor.White;
 		}
-		private static void PrintFinalWords()
+		private static void PrintFinalWords(string[] lines)
 		{
 			Console.WriteLine();
 			Console.WriteLine("sleep is the best meditation");
-			//Console.WriteLine("your path thus far [.X________________] n/m");
+			int totalCompleted = 0;
+			string progressLine = Array.Find(lines, l => l.Contains("Koan progress:"));
+			int total = 0;
+			StringBuilder visual = new StringBuilder();
+			foreach (string pair in progressLine.Substring(progressLine.IndexOf(":") + 1).Split(new[]{','},StringSplitOptions.RemoveEmptyEntries))
+			{
+				int slash = pair.IndexOf('/', 2);
+				int n = int.Parse(pair.Substring(1, slash - 1));
+				int m = int.Parse(pair.Substring(slash + 1, pair.Length - slash - 2));
+				totalCompleted += n;
+				total += m;
+				if (n == 0)
+					visual.Append('_');
+				else if (n != m)
+					visual.Append('X');
+				else
+					visual.Append('.');
+			};
+			Console.WriteLine("your path thus far [{0}] {1}/{2}", visual.ToString(), totalCompleted, total);
 		}
 		private static void PrintTestLineJustTest(string line, ConsoleColor accent, string action, string projectName)
 		{
