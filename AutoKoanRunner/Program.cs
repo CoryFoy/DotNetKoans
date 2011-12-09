@@ -12,8 +12,10 @@ namespace AutoKoanRunner
 		//private static readonly string koansSource = @"..\..\..\CSharp";
 		//private static readonly string koansAssembly = @"..\..\..\CSharp\bin\debug\csharp.dll";
 		private static readonly string koansRunner = @"..\..\..\KoanRunner\bin\debug\koanrunner.exe";
-		private static DateTime lastChange;
-		internal class KoanSource
+		private static DateTime _LastChange;
+		private static string _PriorFailed;
+		private static int _Attempts;
+        internal class KoanSource
 		{
 			public string Extension { get; set; }
 			public string ProjectName { get; set; }
@@ -59,7 +61,7 @@ namespace AutoKoanRunner
 				Array.ForEach(KoanSource.Sources, s =>
 				{
 					StartRunner(null, new FileSystemEventArgs(WatcherChangeTypes.Changed, s.SourceFolder, s.Extension));
-					lastChange = DateTime.MinValue;
+					ResetLastRunData();
 				});
 
 				Console.WriteLine("When you save a Koan, the Master will again ponder your work.");
@@ -76,14 +78,20 @@ namespace AutoKoanRunner
 				});
 			}
 		}
+		private static void ResetLastRunData()
+		{
+			_LastChange = DateTime.MinValue;
+			_PriorFailed = String.Empty;
+			_Attempts = 0;
+		}
 		private static void StartRunner(object sender, FileSystemEventArgs e)
 		{
 			if (e != null)
 			{
 				DateTime timestamp = File.GetLastWriteTime(e.FullPath);
-				if (lastChange.ToString() == timestamp.ToString())// Use string version to eliminate second save by VS a fraction of a second later
+				if (_LastChange.ToString() == timestamp.ToString())// Use string version to eliminate second save by VS a fraction of a second later
 					return;
-				lastChange = timestamp;
+				_LastChange = timestamp;
 			}
 			KoanSource source = Array.Find(KoanSource.Sources, s => e.FullPath.EndsWith(s.Extension));
 			BuildProject(source);
@@ -141,7 +149,20 @@ namespace AutoKoanRunner
 			int lastFail = Array.FindLastIndex(lines, l => l.Contains(kDamaged));
 			if (lastFail >= 0)
 			{
-				PrintTestLineJustTest(lines[lastFail], ConsoleColor.Red, kDamaged, projectName);
+				string method = PrintTestLineJustTest(lines[lastFail], ConsoleColor.Red, kDamaged, projectName);
+				CaptureTriesData(method);
+			}
+		}
+		private static void CaptureTriesData(string method)
+		{
+			if (method != _PriorFailed)
+			{
+				_PriorFailed = method;
+				_Attempts = 0;
+			}
+			else
+			{
+				_Attempts++;
 			}
 		}
 		private static void PrintMastersComments(string[] lines, string kExpanded, string kDamaged)
@@ -153,11 +174,22 @@ namespace AutoKoanRunner
 			{
 				Console.WriteLine("\tYou have not yet reached enlightenment.");
 			}
-			//TODO: Remind to ask for help if they get the same koan wrong a few times.
 			int completed = Array.FindAll(lines, l => l.Contains(kExpanded)).Length;
-			if (completed > 0)
+			if (completed == 0 && _Attempts == 0)
+			{
+            	//Nothing
+            }
+			else if (completed > 0 && _Attempts == 0)
 			{
 				Console.WriteLine("\tYou are progressing. Excellent. {0} completed.", completed);
+			}
+			else if (_Attempts < 3)
+			{
+				Console.WriteLine("\tDo not lose hope.");
+			}
+			else
+			{
+				Console.WriteLine("\tI sense frustration. Do not be afraid to ask for help.");
 			}
 			Console.ForegroundColor = ConsoleColor.White;
 		}
@@ -204,7 +236,7 @@ namespace AutoKoanRunner
 			};
 			Console.WriteLine("your path thus far [{0}] {1}/{2}", visual.ToString(), totalCompleted, total);
 		}
-		private static void PrintTestLineJustTest(string line, ConsoleColor accent, string action, string projectName)
+		private static string PrintTestLineJustTest(string line, ConsoleColor accent, string action, string projectName)
 		{
 			string koanAssembly = String.Format(".{0}.", projectName);
 			int testStart = line.IndexOf(koanAssembly) + koanAssembly.Length;
@@ -212,9 +244,11 @@ namespace AutoKoanRunner
 			Console.ForegroundColor = ConsoleColor.White;
 			Console.Write("{0}.", projectName);
 			Console.ForegroundColor = accent;
-			Console.Write(line.Substring(testStart, testEnd - testStart));
+			string methodName = line.Substring(testStart, testEnd - testStart);
+			Console.Write(methodName);
 			Console.ForegroundColor = ConsoleColor.White;
 			Console.WriteLine(action);
+			return methodName;
 		}
 	}
 }
