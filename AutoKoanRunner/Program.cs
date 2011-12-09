@@ -173,44 +173,54 @@ namespace AutoKoanRunner
 			if (Array.FindIndex(lines, l => l.Contains(kDamaged)) >= 0)
 			{
 				Console.WriteLine("\tYou have not yet reached enlightenment.");
-			}
-			int completed = Array.FindAll(lines, l => l.Contains(kExpanded)).Length;
-			if (completed == 0 && _Attempts == 0)
-			{
-            	//Nothing
-            }
-			else if (completed > 0 && _Attempts == 0)
-			{
-				Console.WriteLine("\tYou are progressing. Excellent. {0} completed.", completed);
-			}
-			else if (_Attempts < 3)
-			{
-				Console.WriteLine("\tDo not lose hope.");
+				int completed = Array.FindAll(lines, l => l.Contains(kExpanded)).Length;
+				if (completed == 0 && _Attempts == 0)
+				{
+					//Nothing
+				}
+				else
+					if (completed > 0 && _Attempts == 0)
+					{
+						Console.WriteLine("\tYou are progressing. Excellent. {0} completed.", completed);
+					}
+					else
+						if (_Attempts < 3)
+						{
+							Console.WriteLine("\tDo not lose hope.");
+						}
+						else
+						{
+							Console.WriteLine("\tI sense frustration. Do not be afraid to ask for help.");
+						}
 			}
 			else
 			{
-				Console.WriteLine("\tI sense frustration. Do not be afraid to ask for help.");
+				Console.WriteLine("\tYou have reached enlightenment.");
 			}
 			Console.ForegroundColor = ConsoleColor.White;
 		}
 		private static void PrintAnswersYouSeek(string[] lines, string kDamaged)
 		{
-			Console.WriteLine();
-			Console.WriteLine("The answers you seek...");
 			int damaged = Array.FindIndex(lines, l => l.Contains(kDamaged));
-			Console.ForegroundColor = ConsoleColor.Red;
-			int offset = damaged + 1;
-            for (; lines[offset].TrimStart().StartsWith("at") == false; offset++)
+			if (damaged >= 0)
 			{
-				Console.WriteLine("\t{0}", lines[offset]);
-			}
-			Console.ForegroundColor = ConsoleColor.White;
 
-			Console.WriteLine();
-			Console.WriteLine("Please meditate on the following code:");
-			Console.ForegroundColor = ConsoleColor.Red;
-			Console.WriteLine("\t{0}", lines[offset].TrimStart());
-			Console.ForegroundColor = ConsoleColor.White;
+				Console.WriteLine();
+				Console.WriteLine("The answers you seek...");
+				Console.ForegroundColor = ConsoleColor.Red;
+				int offset = damaged + 1;
+				for (; lines[offset].TrimStart().StartsWith("at") == false; offset++)
+				{
+					Console.WriteLine("\t{0}", lines[offset]);
+				}
+				Console.ForegroundColor = ConsoleColor.White;
+
+				Console.WriteLine();
+				Console.WriteLine("Please meditate on the following code:");
+				Console.ForegroundColor = ConsoleColor.Red;
+				Console.WriteLine("\t{0}", lines[offset].TrimStart());
+				Console.ForegroundColor = ConsoleColor.White;
+			}
 		}
 		private static void PrintFinalWords(string[] lines)
 		{

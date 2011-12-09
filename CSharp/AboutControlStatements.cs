@@ -131,9 +131,9 @@ namespace DotNetKoans.CSharp
         {
             int i = 1;
             int result = 1;
-            while (i <= 10)
+            while (i <= 3)
             {
-                result = result * i;
+                result = result + i;
                 i += 1;
             }
             Assert.Equal(FILL_ME_IN, result);
@@ -146,8 +146,8 @@ namespace DotNetKoans.CSharp
             int result = 1;
             while (true)
             {
-                if (i > 10) { break; }
-                result = result * i;
+                if (i > 3) { break; }
+                result = result + i;
                 i += 1;    
             }
             Assert.Equal(FILL_ME_IN, result);

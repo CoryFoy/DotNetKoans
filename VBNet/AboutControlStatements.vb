@@ -96,8 +96,8 @@ Public Class AboutControlStatements
     Public Sub WhileStatement()
         Dim i As Integer = 1
         Dim result As Integer = 1
-        While i <= 10
-            result = result * i
+        While i <= 3
+            result = result + i
             i += 1
         End While
         Assert.Equal(FILL_ME_IN, result)
@@ -108,10 +108,10 @@ Public Class AboutControlStatements
         Dim i As Integer = 1
         Dim result As Integer = 1
         While True
-            If i > 10 Then
+            If i > 3 Then
                 Exit While
             End If
-            result = result * i
+            result = result + i
             i += 1
         End While
         Assert.Equal(FILL_ME_IN, result)
