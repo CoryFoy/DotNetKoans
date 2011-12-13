@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoKoanRunner.Tests", "AutoKoanRunner.Tests.csproj", "{0ADE054D-BD27-4033-85BD-45F5AB2BA8E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoKoanRunner.Core", "..\AutoKoanRunner.Core\AutoKoanRunner.Core.csproj", "{C2C1413F-222B-4F84-8E89-32BC11F79ED2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0ADE054D-BD27-4033-85BD-45F5AB2BA8E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0ADE054D-BD27-4033-85BD-45F5AB2BA8E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0ADE054D-BD27-4033-85BD-45F5AB2BA8E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0ADE054D-BD27-4033-85BD-45F5AB2BA8E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2C1413F-222B-4F84-8E89-32BC11F79ED2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2C1413F-222B-4F84-8E89-32BC11F79ED2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2C1413F-222B-4F84-8E89-32BC11F79ED2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2C1413F-222B-4F84-8E89-32BC11F79ED2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
