@@ -169,8 +169,8 @@ namespace DotNetKoans.CSharp
         [Koan(9)]
         public void YouCanCallBaseEvenFromOtherMethods()
         {
-            var george = new BullDog("George");
-            Assert.Equal(FILL_ME_IN, george.Bark());
+            var george = new GreatDane("George");
+            Assert.Equal(FILL_ME_IN, george.Growl());
         }
     }
 }
