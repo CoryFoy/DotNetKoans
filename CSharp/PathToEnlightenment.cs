@@ -11,12 +11,12 @@
 				"DotNetKoans.CSharp.AboutNil",
 				"DotNetKoans.CSharp.AboutArrays",
 				"DotNetKoans.CSharp.AboutArrayAssignment",
-				"DotNetKoans.CSharp.AboutHashes",
 				"DotNetKoans.CSharp.AboutStrings",
 				"DotNetKoans.CSharp.AboutInheritance",
 				"DotNetKoans.CSharp.AboutMethods",
 				"DotNetKoans.CSharp.AboutControlStatements",
-                "DotNetKoans.CSharp.AboutDelegates",
+				"DotNetKoans.CSharp.AboutHashes",
+				"DotNetKoans.CSharp.AboutDelegates",
 				"DotNetKoans.CSharp.AboutLambdas"
                 };
             }
