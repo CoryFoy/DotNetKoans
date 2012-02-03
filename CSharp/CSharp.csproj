@@ -66,8 +66,7 @@
     <Compile Include="AboutAsserts.cs" />
     <Compile Include="AboutControlStatements.cs" />
     <Compile Include="AboutDelegates.cs" />
-    <Compile Include="AboutUsingGenerics.cs" />
-    <Compile Include="AboutHashes.cs" />
+    <Compile Include="AboutGenericContainers.cs" />
     <Compile Include="AboutInheritance.cs" />
     <Compile Include="AboutLambdas.cs" />
     <Compile Include="AboutMethods.cs" />
