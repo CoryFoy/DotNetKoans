@@ -2,61 +2,64 @@
 using System.Linq;
 using Xunit;
 using System.Reflection;
+using System.Text;
 
 namespace DotNetKoans.KoanRunner
 {
-    class Program
-    {
-        static int TEST_FAILED = 0;
+	class Program
+	{
+		static int TEST_FAILED = 0;
 
-        static int Main(string[] args)
-        {
-            try
-            {
-                Console.WriteLine("");
-                Console.WriteLine("");
-                Console.WriteLine("*******************************************************************");
-                Console.WriteLine("*******************************************************************");
-                string koan_path = args[0];
-                Xunit.ExecutorWrapper wrapper = new ExecutorWrapper(koan_path, null, false);
-                System.Reflection.Assembly koans = System.Reflection.Assembly.LoadFrom(koan_path);
-                if (koans == null) { Console.WriteLine("Bad Assembly"); return -1; }
-                Type pathType = null;
-                foreach (Type type in koans.GetExportedTypes())
-                {
-                    if (typeof(KoanHelpers.IAmThePathToEnlightenment).IsAssignableFrom(type))
-                    {
-                        pathType = type;
-                        break;
-                    }
-                }
+		static int Main(string[] args)
+		{
+			StringBuilder progress = new StringBuilder();
+			try
+			{
+				Console.WriteLine("");
+				Console.WriteLine("");
+				Console.WriteLine("*******************************************************************");
+				Console.WriteLine("*******************************************************************");
+				string koan_path = args[0];
+				Xunit.ExecutorWrapper wrapper = new ExecutorWrapper(koan_path, null, false);
+				System.Reflection.Assembly koans = System.Reflection.Assembly.LoadFrom(koan_path);
+				if (koans == null) { Console.WriteLine("Bad Assembly"); return -1; }
+				Type pathType = null;
+				foreach (Type type in koans.GetExportedTypes())
+				{
+					if (typeof(KoanHelpers.IAmThePathToEnlightenment).IsAssignableFrom(type))
+					{
+						pathType = type;
+						break;
+					}
+				}
 
-                KoanHelpers.IAmThePathToEnlightenment path = Activator.CreateInstance(pathType) as KoanHelpers.IAmThePathToEnlightenment;
-                string[] thePath = path.ThePath;
+				KoanHelpers.IAmThePathToEnlightenment path = Activator.CreateInstance(pathType) as KoanHelpers.IAmThePathToEnlightenment;
+				string[] thePath = path.ThePath;
 
-                foreach (string koan in thePath)
-                {
-                    Run(koan, koans, wrapper);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Karma has killed the runner. Exception was: " + ex.ToString());
-                return -1;
-            }
-            Console.WriteLine("*******************************************************************");
-            Console.WriteLine("*******************************************************************");
-            Console.WriteLine("");
-            Console.WriteLine("");
-            return TEST_FAILED;
-        }
+				foreach (string koan in thePath)
+				{
+					progress.AppendFormat("{0},", Run(koan, koans, wrapper));
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("Karma has killed the runner. Exception was: " + ex.ToString());
+				return -1;
+			}
+			Console.WriteLine("Koan progress:{0}", progress.ToString());
+			Console.WriteLine("*******************************************************************");
+			Console.WriteLine("*******************************************************************");
+			Console.WriteLine("");
+			Console.WriteLine("");
+			return TEST_FAILED;
+		}
 
-        static void Run(string className, System.Reflection.Assembly koanAssembly, ExecutorWrapper wrapper)
+        static string Run(string className, System.Reflection.Assembly koanAssembly, ExecutorWrapper wrapper)
         {
             
             Type classToRun = koanAssembly.GetType(className);
 
-            if (classToRun == null) { return; }
+            if (classToRun == null) { return "(0/0)"; }
 
             string[] queue = new string[classToRun.GetMethods().Length + 1];
             int highestKoanNumber = 0;
@@ -70,19 +73,25 @@ namespace DotNetKoans.KoanRunner
             }
 
             int numberOfTestsActuallyRun = 0;
+			int numberOfTestsPassed = 0;
             foreach (string test in queue)
             {
-                if (String.IsNullOrEmpty(test)) { continue; }
-                numberOfTestsActuallyRun += 1;
-                if (TEST_FAILED != 0) { continue; }
+                if (String.IsNullOrEmpty(test)) 
+					continue;
+                numberOfTestsActuallyRun++;
+                if (TEST_FAILED != 0)
+					continue;
                 wrapper.RunTest(className, test, callback);
-            }
+				if (TEST_FAILED == 0)
+					numberOfTestsPassed++;
+			}
 
             if (numberOfTestsActuallyRun != highestKoanNumber)
             {
                 Console.WriteLine("!!!!WARNING - Some Koans appear disabled. The highest koan found was {0} but we ran {1} koan(s)",
                     highestKoanNumber, numberOfTestsActuallyRun);
             }
+			return string.Format("({0}/{1})", numberOfTestsPassed, numberOfTestsActuallyRun);
         }
 
         static bool callback(System.Xml.XmlNode result)
