@@ -29,8 +29,8 @@ namespace AutoKoanRunner
 			{
 				Array.ForEach(watchers, w =>
 				{
-					w.Changed += StartRunner;
-					w.NotifyFilter = NotifyFilters.LastWrite;
+                    w.Changed += StartRunner;
+                    w.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.CreationTime;
 					w.EnableRaisingEvents = true;
 				});
 
