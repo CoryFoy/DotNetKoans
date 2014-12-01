@@ -209,7 +209,7 @@ namespace DotNetKoans.CSharp
 		public void BuiltInPredicateDelegateIntSatisfied()
 		{
 			//The Predicate<T> delegate 
-			//  public delgate void Predicate<T>(T obj);
+			//  public delgate bool Predicate<T>(T obj);
 			//Predicate allows you to codify a condition and pass it around. 
 			//You use it to determine if an object satisfies some criteria. 
 
