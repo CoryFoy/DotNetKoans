@@ -281,7 +281,7 @@ namespace DotNetKoans.CSharp
 		{
 			//Like Action<>, Func<> is overloaded and can take a variable number of parameters.
 			//The first type parameters define the parameter types and the last one is the return type. So the following matches
-			//a method which takes two int parameters and returns a string.
+			//a method which takes two int parameters and returns a int.
 			Func<int, int, int> a = Add;
 			Assert.Equal(FILL_ME_IN, a(1, 1));
 		}
