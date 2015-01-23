@@ -209,7 +209,7 @@ namespace DotNetKoans.CSharp
 		public void BuiltInPredicateDelegateIntSatisfied()
 		{
 			//The Predicate<T> delegate 
-			//  public delgate void Predicate<T>(T obj);
+			//  public delgate bool Predicate<T>(T obj);
 			//Predicate allows you to codify a condition and pass it around. 
 			//You use it to determine if an object satisfies some criteria. 
 
@@ -281,7 +281,7 @@ namespace DotNetKoans.CSharp
 		{
 			//Like Action<>, Func<> is overloaded and can take a variable number of parameters.
 			//The first type parameters define the parameter types and the last one is the return type. So the following matches
-			//a method which takes two int parameters and returns a string.
+			//a method which takes two int parameters and returns a int.
 			Func<int, int, int> a = Add;
 			Assert.Equal(FILL_ME_IN, a(1, 1));
 		}
